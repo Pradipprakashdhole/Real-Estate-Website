@@ -1,0 +1,179 @@
+<%- include('partials/head') %>
+
+<!-- Tailwind CSS CDN -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+<style>
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #28a745, #3fd65f);
+  }
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+  }
+  .property-card {
+    transition: transform 0.3s ease, box-shadow 0.5s ease;
+  }
+  .swiper-slide-active .property-card {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+  .hero-bg-slideshow {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    animation: slideshow 20s infinite;
+    background-size: cover;
+    background-position: center;
+  }
+  @keyframes slideshow {
+    0%   { background-image: url('/images/1752168218144.jpg'); }
+    33%  { background-image: url('/images/1752214109329.jpg'); }
+    66%  { background-image: url('/images/1752219183374.jpg'); }
+    100% { background-image: url('/images/1752300048061.jpg'); }
+  }
+  @keyframes gradientText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  .animated-text {
+    background: linear-gradient(270deg, #0d6efd, hsl(165, 100%, 50%), #ffffff);
+    background-size: 600% 600%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientText 5s linear infinite;
+  }
+</style>
+</head>
+
+<body class="bg-white text-black dark:bg-gray-900 dark:text-white">
+
+  <%- include('partials/navbar') %>
+
+  <!-- Hero Section -->
+  <section class="hero-section relative text-white text-center h-[90vh] flex items-center justify-center overflow-hidden">
+    <div class="hero-bg-slideshow absolute inset-0 z-0"></div>
+    <div class="relative z-10 container px-4">
+      <h1 class="animated-text text-4xl md:text-6xl font-bold mb-6 animate-pulse">Welcome to DreamNest</h1>
+      <p class="text-lg md:text-xl mb-6">India's trusted platform to buy, rent, and post real estate listings.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/buy" class="bg-white text-black px-6 py-3 rounded-full shadow-lg hover:bg-gray-200 transition">Browse Buy Listings</a>
+        <a href="/rent" class="border border-white px-6 py-3 rounded-full text-white hover:bg-white hover:text-black transition">Explore Rentals</a>
+        <a href="/add-property" class="bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition">Post Your Property</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Buy Section -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12 relative">
+        <h2 class="section-title text-3xl font-semibold mb-2">Recently Added for <span class="text-green-500">Buy</span></h2>
+        <p class="text-gray-600">Explore our latest properties available for purchase</p>
+      </div>
+
+      <% if (buyProperties && buyProperties.length > 0) { %>
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <% buyProperties.forEach(property => { %>
+              <div class="swiper-slide">
+                <div class="property-card bg-white rounded-xl overflow-hidden shadow-lg max-w-sm">
+                  <span class="absolute top-4 right-4 bg-black bg-opacity-70 text-white text-xs px-3 py-1 rounded-full">For Sale</span>
+                  <img src="<%= property.image || 'https://placehold.co/600x400' %>" alt="<%= property.title %>" class="w-full h-60 object-cover">
+                  <div class="p-4">
+                    <h3 class="text-xl font-semibold"><%= property.title %></h3>
+                    <p class="text-gray-500"><i class="fas fa-map-marker-alt"></i> <%= property.location %></p>
+                    <div class="flex justify-between mt-3 text-sm text-gray-600">
+                      <span><i class="fas fa-bed"></i> <%= property.bedrooms %> Beds</span>
+                      <span><i class="fas fa-bath"></i> <%= property.bathrooms %> Baths</span>
+                      <span><i class="fas fa-vector-square"></i> <%= property.area %> sqft</span>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                      <h4 class="text-green-600 font-bold text-lg">₹<%= property.price.toLocaleString() %></h4>
+                      <a href="/property/<%= property._id %>" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full">View Details</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      <% } else { %>
+        <div class="text-center text-gray-500">No properties available for purchase at this time.</div>
+      <% } %>
+    </div>
+  </section>
+
+  <!-- Rent Section -->
+  <section class="py-16 bg-gray-100">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12 relative">
+        <h2 class="section-title text-3xl font-semibold mb-2">Recently Added for <span class="text-blue-600">Rent</span></h2>
+        <p class="text-gray-600">Find your perfect rental property in prime locations</p>
+      </div>
+
+      <% if (rentProperties && rentProperties.length > 0) { %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <% rentProperties.forEach(property => { %>
+            <div class="property-card bg-white rounded-xl overflow-hidden shadow-lg hover:scale-105 transition">
+              <span class="absolute top-4 right-4 bg-blue-600 text-white text-sm px-3 py-1 rounded-full">For Rent</span>
+              <img src="<%= property.image || 'https://placehold.co/600x400' %>" alt="<%= property.title %>" class="w-full h-60 object-cover">
+              <div class="p-4">
+                <h3 class="text-xl font-semibold"><%= property.title %></h3>
+                <p class="text-gray-500"><i class="fas fa-map-marker-alt"></i> <%= property.location %></p>
+                <div class="flex justify-between mt-3 text-sm text-gray-600">
+                  <span><i class="fas fa-bed"></i> <%= property.bedrooms %> Beds</span>
+                  <span><i class="fas fa-bath"></i> <%= property.bathrooms %> Baths</span>
+                  <span><i class="fas fa-vector-square"></i> <%= property.area %> sqft</span>
+                </div>
+                <div class="mt-4 flex justify-between items-center">
+                  <h4 class="text-blue-600 font-bold text-lg">₹<%= property.price.toLocaleString() %>/month</h4>
+                  <a href="/property/<%= property._id %>" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full">View Details</a>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <div class="text-center text-gray-500">No rental properties available at this time.</div>
+      <% } %>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    const swiper = new Swiper('.mySwiper', {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      loop: true,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        1024: { slidesPerView: 3 },
+        768: { slidesPerView: 2 },
+        576: { slidesPerView: 1 }
+      }
+    });
+  </script>
+</body>
+</html>

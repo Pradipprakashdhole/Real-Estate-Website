@@ -1,0 +1,81 @@
+<%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <style>
+    .fade-in {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <div class="container py-5 fade-in">
+    <h2 class="mb-4 text-center fw-bold">✏️ Edit Property</h2>
+
+    <form action="/edit-property/<%= property._id %>" method="POST" enctype="multipart/form-data"
+          class="shadow p-4 bg-white rounded mx-auto" style="max-width: 700px;">
+      
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" name="title" value="<%= property.title %>" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-control" rows="4" required><%= property.description %></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Location</label>
+        <input type="text" name="location" value="<%= property.location %>" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Price (₹)</label>
+        <input type="number" name="price" value="<%= property.price %>" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Type</label>
+        <select name="type" class="form-select" required>
+          <option value="buy" <%= property.type === "buy" ? "selected" : "" %>>Buy</option>
+          <option value="rent" <%= property.type === "rent" ? "selected" : "" %>>Rent</option>
+          <option value="commercial" <%= property.type === "commercial" ? "selected" : "" %>>Commercial</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Current Image</label><br>
+        <img src="<%= property.image || '/images/placeholder.jpg' %>" class="img-thumbnail mb-3"
+             style="max-width: 200px; height: auto;" alt="Property Image"
+             onerror="this.src='/images/placeholder.jpg'"><br>
+
+        <label class="form-label">Upload New Image (optional)</label>
+        <input type="file" name="image" class="form-control" accept="image/*">
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-success me-2">
+          <i class="bi bi-check-circle-fill me-1"></i> Update Property
+        </button>
+        <a href="/dashboard" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left-circle me-1"></i> Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

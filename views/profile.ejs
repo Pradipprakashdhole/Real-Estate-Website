@@ -1,0 +1,88 @@
+<%- include("partials/head") %>
+
+<style>
+  .fade-in {
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .img-thumbnail {
+    object-fit: cover;
+    height: 180px;
+    width: 180px;
+  }
+</style>
+
+<div class="container mt-5 fade-in">
+  <% if (success_msg) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= success_msg %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% } %>
+
+  <h2 class="mb-4 fw-bold text-center">Edit Profile</h2>
+
+  <div class="row">
+    <!-- Profile Image -->
+    <div class="col-md-4 text-center mb-4">
+      <img id="profilePreview" src="<%= user.profileImage || '/images/default-user.png' %>" 
+           class="img-thumbnail rounded-circle shadow-sm mb-3" 
+           alt="Profile Image">
+
+      <form action="/update-profile" method="POST" enctype="multipart/form-data">
+        <input type="file" name="profileImage" class="form-control mb-2" accept="image/*" onchange="previewImage(event)">
+        <button type="submit" class="btn btn-primary btn-sm">Upload New Image</button>
+      </form>
+    </div>
+
+    <!-- Profile Form -->
+    <div class="col-md-8">
+      <div class="card shadow-sm p-4">
+        <form action="/update-profile" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="name" class="form-label"><strong>Name:</strong></label>
+            <input type="text" class="form-control" name="name" id="name" value="<%= user.name %>" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="mobile" class="form-label"><strong>Mobile Number:</strong></label>
+            <input type="text" class="form-control" name="mobile" id="mobile" value="<%= user.mobile || '' %>">
+          </div>
+
+          <p><strong>Email:</strong> <%= user.email %></p>
+          <p><strong>Joined:</strong> <%= new Date(user.date).toLocaleDateString() %></p>
+
+          <button type="submit" class="btn btn-success mt-2">Update Profile</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 text-center">
+    <a href="/dashboard" class="btn btn-outline-secondary">← Back to Dashboard</a>
+  </div>
+</div>
+
+<script>
+  function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      const output = document.getElementById('profilePreview');
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
+</script>
+
+<%- include("partials/footer") %>

@@ -1,0 +1,75 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  scroll-behavior: smooth;
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* REMOVE THIS: not needed for Tailwind dark mode
+body.night {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+*/
+
+.navbar-brand {
+  font-size: 1.6rem;
+}
+
+.card-img-top {
+  height: 220px;
+  object-fit: cover;
+}
+
+.hover-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.hover-zoom {
+  transition: transform 0.2s ease;
+}
+.hover-zoom:hover {
+  transform: scale(1.05);
+}
+
+.btn {
+  transition: all 0.3s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.btn-dark-mode {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #08965a, #0d6efd);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  text-decoration: none;
+  animation: gradientText 5s linear infinite;
+}

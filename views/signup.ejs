@@ -1,0 +1,74 @@
+<%- include('partials/head') %>
+<!-- Add Animate.css for animation if not already included -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+
+<body class="bg-light">
+  <%- include('partials/navbar') %>
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 bg-white p-5 shadow rounded animate__animated animate__fadeIn">
+        <h2 class="text-center mb-4">Create Your Account</h2>
+
+        <form action="/signup" method="POST" novalidate>
+          <!-- Name -->
+          <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Pradip Dhole " required>
+          </div>
+
+          <!-- Mobile -->
+          <div class="mb-3">
+            <label for="mobile" class="form-label">Mobile Number</label>
+            <input type="text" id="mobile" name="mobile" class="form-control" placeholder="e.g. 8989890008" required>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com" required>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-group">
+              <input type="password" id="password" name="password" class="form-control" placeholder="Choose a strong password" required>
+              <span class="input-group-text" onclick="togglePassword()">
+                <i class="bi bi-eye" id="toggleIcon"></i>
+              </span>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+        </form>
+
+        <p class="text-center mt-3">
+          Already have an account? <a href="/login" class="text-decoration-none">Login</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+
+  <!-- Password Toggle Script -->
+  <script>
+    function togglePassword() {
+      const passwordField = document.getElementById("password");
+      const icon = document.getElementById("toggleIcon");
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+      } else {
+        passwordField.type = "password";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+      }
+    }
+  </script>
+</body>
+</html>

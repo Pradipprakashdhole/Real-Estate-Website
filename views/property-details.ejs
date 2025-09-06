@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <title>Property Details</title>
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    .slide-up {
+      animation: slideUp 0.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .btn-custom:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <!-- Property Detail Section -->
+  <section class="container py-5 fade-in">
+    <div class="row align-items-start">
+
+      <!-- Property Image + Like Button -->
+      <div class="col-md-6 position-relative mb-4 mb-md-0 slide-up">
+        <img src="<%= property.image || '/images/placeholder.jpg' %>"
+             class="img-fluid rounded shadow w-100"
+             style="max-height: 400px; object-fit: cover;"
+             alt="<%= property.title %>"
+             onerror="this.src='/images/placeholder.jpg'">
+
+        <!-- Like/Favorite Button -->
+        <form action="/favorite/<%= property._id %>" method="POST"
+              class="position-absolute top-0 end-0 m-3">
+          <button class="btn btn-light border rounded-circle shadow btn-custom" type="submit" title="Save to Favorites">
+            ❤️
+          </button>
+        </form>
+      </div>
+
+      <!-- Property Details -->
+      <div class="col-md-6 slide-up">
+        <h2 class="fw-bold mb-3"><%= property.title %></h2>
+        <h4 class="text-primary mb-2">₹ <%= property.price.toLocaleString() %></h4>
+        <p class="text-muted mb-1"><strong>Location:</strong> <%= property.location %></p>
+        <p class="text-muted mb-4"><strong>Type:</strong> <%= property.type.charAt(0).toUpperCase() + property.type.slice(1) %></p>
+        
+        <p class="mb-4"><%= property.description %></p>
+
+        <!-- Action Buttons -->
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <% if (property.postedBy) { %>
+            <a href="/owner/<%= property.postedBy._id %>" class="btn btn-info d-flex align-items-center gap-2 btn-custom">
+              <i class="bi bi-person-circle"></i> View Owner Details
+            </a>
+          <% } else { %>
+            <span class="text-danger">⚠️ Owner information not available.</span>
+          <% } %>
+
+          <a href="<%= property.type === 'buy' ? '/buy' : '/rent' %>" class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-custom">
+            <i class="bi bi-arrow-left"></i> Back to Listings
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

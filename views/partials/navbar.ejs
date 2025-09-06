@@ -1,0 +1,64 @@
+<!-- views/partials/navbar.ejs -->
+
+<nav class="bg-white dark:bg-gray-900 shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <a href="/" class="text-2xl font-bold bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">
+        DreamNest
+      </a>
+
+      <!-- Mobile toggle -->
+      <div class="flex items-center space-x-4 md:hidden">
+        <button id="menu-toggle" class="text-2xl text-gray-700 dark:text-white focus:outline-none">☰</button>
+      </div>
+
+      <!-- Desktop nav -->
+      <div id="menu" class="hidden md:flex space-x-6 items-center text-gray-700 dark:text-gray-300">
+        <a href="/buy" class="hover:text-blue-600 transition">Buy</a>
+        <a href="/rent" class="hover:text-blue-600 transition">Rent</a>
+        <a href="/commercial" class="hover:text-blue-600 transition">Commercial</a>
+        <a href="/add-property" class="hover:text-blue-600 transition">Post Property</a>
+
+        <% if (session.user) { %>
+          <a href="/dashboard" class="hover:text-green-500">Dashboard</a>
+          <a href="/logout" class="text-red-500 hover:text-red-700">Logout</a>
+        <% } else { %>
+          <a href="/login" class="hover:text-blue-600">Login</a>
+          <a href="/signup" class="hover:text-blue-600">Signup</a>
+        <% } %>
+
+        <button onclick="toggleNightMode()" id="dark-mode-btn" class="text-xl ml-2">🌙</button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="md:hidden hidden flex-col mt-2 space-y-2 text-gray-700 dark:text-gray-300">
+      <a href="/buy">Buy</a>
+      <a href="/rent">Rent</a>
+      <a href="/commercial">Commercial</a>
+
+      <a href="/add-property">Post Property</a>
+      <% if (session.user) { %>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout" class="text-red-500">Logout</a>
+      <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/signup">Signup</a>
+      <% } %>
+    </div>
+  </div>
+</nav>
+
+<!-- Scripts -->
+ <script>
+      function toggleNightMode() {
+        document.body.classList.toggle('night');
+        localStorage.setItem('nightMode', document.body.classList.contains('night'));
+      }
+
+      window.onload = function () {
+        if (localStorage.getItem('nightMode') === 'true') {
+          document.body.classList.add('night');
+        }
+      };
+    </script>
